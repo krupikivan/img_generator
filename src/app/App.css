@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  margin: auto;
+  padding-top: 30px;
+  width: 330px;
+}
+
+.input {
+  margin-bottom: 30px;
+  padding: 5px 15px;
+  width: 300px;
+}
+
+.btn {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.photo {
+  height: 300px;
+  width: 300px;
+}
