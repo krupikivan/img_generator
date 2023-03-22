@@ -35,10 +35,10 @@ const Form = () => {
         { path && <img className="photo" src={path} alt=""/>}
         { status === Status.Fetching && <Spinner />}
         { status !== Status.Fetching && 
-          <input
+          <textarea
             value={term}
+            rows={4}
             onChange={(e) => setTerm(e.target.value)}
-            type="text"
             placeholder="Enter a Prompt"
             className="input"
           />
