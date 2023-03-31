@@ -2,6 +2,7 @@ import * as Generation from "./generation/generation_pb";
 import { GenerationServiceClient } from "./generation/generation_pb_service";
 import { grpc as GRPCWeb } from "@improbable-eng/grpc-web";
 import { ArtifactTypeMap, FinishReasonMap } from "./generation/generation_pb";
+import { base64ToBlob } from "./utils/converts";
 
 export type GenerationTextPrompt = {
   /** The text prompt, maximum of 2000 characters. */
@@ -301,9 +302,9 @@ function extractArtifacts(answers: Generation.Answer[]): GenerationArtifacts {
 }
 
 
-export function onGenerationComplete(response: GenerationResponse): Promise<string[]> {
+export function onGenerationComplete(response: GenerationResponse): Promise<Blob[]> {
 
-  const promises: Promise<string>[] = [];
+  const promises: Promise<Blob>[] = [];
   
   if (response instanceof Error) {
       console.error("Generation failed", response);
@@ -329,11 +330,8 @@ export function onGenerationComplete(response: GenerationResponse): Promise<stri
     response.imageArtifacts.forEach(async (artifact: Generation.Artifact) => {
       try {
         const base64EncodedString = artifact.getBinary_asB64();
-        console.log("Base64 Encoded String", base64EncodedString);
         const blob = base64ToBlob(base64EncodedString);
-        const path = URL.createObjectURL(blob)
-        console.log("path", path);
-        promises.push(Promise.resolve(path));
+        promises.push(Promise.resolve(blob));
       } catch (error) {
         console.error("Failed to write resulting image to disk", error);
       }
@@ -342,36 +340,4 @@ export function onGenerationComplete(response: GenerationResponse): Promise<stri
     return Promise.all(promises);
   // For browser implementations: you could use the `artifact.getBinary_asB64()` method to get a
   // base64 encoded string and then create a data URL from that and display it in an <img> tag.
-}
-
-export function base64ToBlob(base64EncodedString: string): Blob {
-  const binaryString = atob(base64EncodedString);
-  const length = binaryString.length;
-  const bytes = new Uint8Array(length);
-
-  for (let i = 0; i < length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-
-  return new Blob([bytes], { type: "image/png" });
-}
-
-function saveFile(blob: Blob, filename: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.addEventListener('click', () => {
-      setTimeout(() => {
-        URL.revokeObjectURL(link.href);
-      }, 1000);
-    });
-    link.addEventListener('error', (error) => {
-      reject(error);
-    });
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    resolve(link.href);
-  });
 }

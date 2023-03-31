@@ -7,14 +7,14 @@ import { Status } from '../utils/constant'
 interface CounterState {
   value: number,
   status: Status,
-  image: string
+  blob: Blob | null,
 }
 
 // Define the initial state using that type
 const initialState: CounterState = {
   value: 0,
   status: Status.Idle,
-  image: '',
+  blob: null,
 }
 
 
@@ -42,7 +42,7 @@ export const CounterSlice = createSlice({
     builder.addCase(getImage.fulfilled, (state, action) => {
       console.log('Fetched getImage.....', action.payload)
       state.status = Status.Fetch
-      state.image = action.payload
+      state.blob = action.payload
     })
     builder.addCase(getImage.rejected, (state, action) => {
       console.log('Failed getImage.....')

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { decrement, increment } from '../features/counterSlice'
 
@@ -8,8 +8,7 @@ const Counter = (): JSX.Element => {
   const dispatch = useAppDispatch()
 
   return (
-    <div>  
-      <div>
+    <React.Fragment>
         <button
           aria-label="Increment value"
           onClick={() => dispatch(increment())} 
@@ -23,8 +22,7 @@ const Counter = (): JSX.Element => {
         >
           Decrement
         </button>
-      </div>
-    </div>
+    </React.Fragment>
   )
 }
 
