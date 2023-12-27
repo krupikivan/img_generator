@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 
 import '../App.css';
-import { getImage } from '../features/counterAction';
+import { getImage } from '../features/imageGenerationAction';
 import { Status } from '../utils/constant';
 import { createUrlImage, saveFile } from '../utils/converts';
 import Spinner from './Spinner';
@@ -37,7 +37,7 @@ const Form = () => {
 
   return (
     <div className="container">
-      <h1>Image Generator</h1>
+      <h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>Image Generator</h1>
       <form onSubmit={submitForm} className='form-generator'>
         <div className='form-generator-column'>
         <textarea

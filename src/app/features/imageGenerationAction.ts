@@ -8,13 +8,13 @@ import {
 } from "../helpers";
 
 export const getImage = createAsyncThunk(
-  "image/get",
+  'image/get',
   async (data: { text: string }) => {
     try {
       // https://github.com/Stability-AI/api-interfaces/blob/main/src/proto/generation.proto
       // https://platform.stability.ai/docs/features/api-parameters
       const request = buildGenerationRequest("stable-diffusion-768-v2-1", {
-        type: "text-to-image",
+        type: 'text-to-image',
         prompts: [
           {
             text: data.text,

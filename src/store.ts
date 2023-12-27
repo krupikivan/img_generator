@@ -1,11 +1,11 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
-import { CounterSlice } from './app/features/counterSlice'
+import { ImageGenerationSlice } from './app/features/imageGenerationSlice'
 // ...
 
 export const store = configureStore({
   reducer: {
-    counter: CounterSlice.reducer,
+    counter: ImageGenerationSlice.reducer,
   },
 })
 

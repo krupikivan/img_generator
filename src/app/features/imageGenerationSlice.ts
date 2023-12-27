@@ -1,37 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getImage } from './counterAction'
-import { Status } from '../utils/constant'
+import { getImage } from './imageGenerationAction'
+import { optionStyle, Status } from '../utils/constant'
 
 // Define a type for the slice state
-interface CounterState {
-  value: number,
+interface ImageGenerationState {
   status: Status,
   blob: Blob | null,
+  style: string | null,
+  optionStyle: string[],
 }
 
 // Define the initial state using that type
-const initialState: CounterState = {
-  value: 0,
+const initialState: ImageGenerationState = {
   status: Status.Idle,
   blob: null,
+  style: null,
+  optionStyle: optionStyle,
 }
 
 
-export const CounterSlice = createSlice({
-  name: 'counter',
-  // `createSlice` will infer the state type from the `initialState` argument
+export const ImageGenerationSlice = createSlice({
+  name: 'imageGeneration',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
+    selectStyle: (state, action: PayloadAction<string>) => {
+      state.style = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -51,5 +45,5 @@ export const CounterSlice = createSlice({
   }
 })
 
-export const { increment, decrement, incrementByAmount } = CounterSlice.actions
-export default CounterSlice.reducer
+export const { selectStyle } = ImageGenerationSlice.actions
+export default ImageGenerationSlice.reducer
